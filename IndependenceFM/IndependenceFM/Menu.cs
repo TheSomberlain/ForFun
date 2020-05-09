@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace IndependenceFM
 {
@@ -45,7 +46,8 @@ namespace IndependenceFM
                 Console.WriteLine(new String('\n', 5));
                 string str = Player.Playlists[CurPos];
                 string[] t = str.Split(new char[] { '\\' }, StringSplitOptions.RemoveEmptyEntries);
-                Console.WriteLine($"Playlist: {t[t.Length - 1].Replace(".txt", "")}");
+                string playListName = Path.ChangeExtension(t[t.Length - 1], null);
+                Console.WriteLine($"Playlist: {playListName}");
             }
         }
 

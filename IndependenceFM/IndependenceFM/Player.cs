@@ -25,13 +25,20 @@ namespace IndependenceFM
             var t = Directory.GetFiles(path);
             foreach(var item in t)
             {
-                if (item.EndsWith(".txt")) Playlists.Add(item);  
+                if (item.EndsWith(".txt")) Playlists.Add(item);
+                if (item.EndsWith(".m3u")) Playlists.Add(item);
+                if (item.EndsWith(".aimppl4")) Playlists.Add(item);
             };
 
             int i = 0;
             foreach (var item in Playlists)
             {
-                PlaylistsInDir.Add(i, ParseDirectoriesFromPlaylist(item).ToList());
+                if (item.EndsWith(".txt"))
+                    PlaylistsInDir.Add(i, ParseDirectoriesFromPlaylist(item).ToList());
+                if (item.EndsWith(".m3u"))
+                    PlaylistsInDir.Add(i, ParseDirectoriesFromM3UPlaylist(item).ToList());
+                if (item.EndsWith(".aimppl4"))
+                    PlaylistsInDir.Add(i, ParseDirectoriesFromAIMPPlaylist(item).ToList());
                 i++;
             }
         }
@@ -42,6 +49,38 @@ namespace IndependenceFM
             return lines;
         }
 
+        public IEnumerable<string> ParseDirectoriesFromM3UPlaylist(string path)
+        {
+            string[] lines = File.ReadAllLines(path);
+            List<string> parsed = lines.ToList();
+            parsed.RemoveAt(0);
+            for(int i = 1; i < parsed.Count; i += 2)
+            {
+                i--;
+                parsed.RemoveAt(i);
+            }
+            return parsed;
+        }
+
+        public IEnumerable<string> ParseDirectoriesFromAIMPPlaylist(string path)
+        {
+            string[] lines = File.ReadAllLines(path);
+            List<string> parsed = lines.ToList();
+            for(int i = 0; i < parsed.Count; i++)
+            {
+                if (parsed[i] != "#-----CONTENT-----#") parsed.RemoveAt(i);
+                if (parsed[i] == "#-----CONTENT-----#") break;
+                i--;
+            }
+            parsed.RemoveAt(0);
+            parsed.RemoveAt(0);
+            for(int i = 0; i < parsed.Count; i++)
+            {
+                int index = parsed[i].IndexOf('|');
+                parsed[i] = parsed[i].Substring(0, index);
+            }
+            return parsed;
+        }
         public void Play(string path)
         {
             _wplayer.URL = path;

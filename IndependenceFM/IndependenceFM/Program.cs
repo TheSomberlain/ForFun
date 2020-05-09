@@ -10,7 +10,7 @@ namespace IndependenceFM
 {
     class Program
     {
-        public const string path = @"C:\Users\Reaper\source\repos\IndependenceFM\IndependenceFM";
+        public const string path = @"C:\Users\Reaper\Documents\DoDiezForFun\IndependenceFM\IndependenceFM\Music\";
         static void Main(string[] args)
         {
 
@@ -19,7 +19,7 @@ namespace IndependenceFM
             player.Scan(path);
             menu.Player = player;
             menu.Play(menu.GetCurrentTrackPath());
-            while (true)
+             while (true)
             {
                 menu.DrawMenu();
                 char str = Console.ReadKey(false).KeyChar;            
@@ -52,7 +52,8 @@ namespace IndependenceFM
                         break;
                 }
                 Console.Clear();
-            }
+            };
+            Console.ReadKey();
         }
     }
 }
