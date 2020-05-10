@@ -23,9 +23,8 @@ namespace IndependenceFM
             player.Play(Player.PlaylistsInDir[rInt][0]);
             while (true)
             {
-                menu.DrawMenu();
-                char str = Console.ReadKey(false).KeyChar;            
-                switch (str)
+                char choice = menu.DrawMenu();       
+                switch (choice)
                 {
                     case 'n':
                         menu.CurPosWithinPlaylist++;
