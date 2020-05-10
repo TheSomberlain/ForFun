@@ -10,11 +10,11 @@ namespace IndependenceFM
 {
     public class Player
     {
-        public List<string> Playlists { get; set; }
-        public Dictionary<int, List<string>> PlaylistsInDir { get; set; }
-        private WindowsMediaPlayer _wplayer;
+        public static List<string> Playlists { get; set; }
+        public static Dictionary<int, List<string>> PlaylistsInDir { get; set; }
+        private static WindowsMediaPlayer _wplayer;
 
-        public Player()
+        static Player()
         {
             Playlists = new List<string>();
             PlaylistsInDir = new Dictionary<int, List<string>>();
@@ -90,6 +90,12 @@ namespace IndependenceFM
         public void Stop()
         {
             _wplayer.controls.stop();
+        }
+
+        public void Clear()
+        {
+            Playlists.Clear();
+            PlaylistsInDir.Clear();
         }
     }
 }
